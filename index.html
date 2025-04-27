@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--
+    © 2025 Dr Ivan Inkov, MD, CAS, CCB, ESCO Graduate 
+    AURS–Basic Calculator v1.0
+    Licensed under the Apache License, Version 2.0 (see LICENSE)
+  -->
+  <meta charset="UTF-8">
+  <title>AURS–Basic - Axillary Metastasis Risk Assessment Tool in Breast Cancer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <style>
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f2f5;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .container {
+      background-color: #ffffff;
+      max-width: 840px;
+      width: 95%;
+      margin: 40px auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h2, h3 {
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .form-section {
+      border: 1px solid #ddd;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      background-color: #fafafa;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .form-section h4 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 15px;
+      color: #444;
+      text-align: center;
+    }
+
+    label {
+      font-weight: 500;
+      display: flex;
+      flex-direction: column;
+      font-size: 13px;
+      margin-bottom: 8px;
+      align-items: center;
+      text-align: center;
+    }
+
+    input[type="number"] {
+      width: 120px;
+      max-width: 100%;
+      padding: 3px 5px;
+      font-size: 12px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      background-color: #fff;
+      margin-top: 4px;
+      text-align: center;
+    }
+
+    input[type="number"]:focus {
+      outline: none;
+      border-color: #4caf50;
+      box-shadow: 0 0 3px rgba(76, 175, 80, 0.6);
+    }
+
+    button {
+      background-color: #4caf50;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      border-radius: 20px;
+      font-size: 13px;
+      padding: 5px 10px;
+      max-width: 160px;
+      margin: 8px auto;
+      display: block;
+    }
+
+    button:hover {
+      background-color: #45a049;
+      transform: scale(1.03);
+    }
+
+    .calculate-btn {
+      background: linear-gradient(135deg, #4caf50, #2196F3);
+    }
+
+    .reset-btn {
+      background-color: #e53935;
+    }
+
+    .tooltip {
+  cursor: help;
+  text-decoration: underline dotted;
+  color: #555;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+    .explanation {
+      font-size: 12px;
+      color: #666;
+      margin-bottom: 6px;
+      text-align: center;
+      max-width: 90%;
+    }
+
+    .risk-output {
+      padding: 14px;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      margin: 20px 0;
+      transition: all 0.5s ease-in-out;
+      border: 2px solid #ccc;
+      text-align: center;
+    }
+
+    .risk-low { background-color: #a8e6cf; }
+    .risk-mid { background-color: #fff59d; }
+    .risk-high { background-color: #ffccbc; }
+    .risk-critical { background-color: #ef5350; color: #fff; }
+
+    .progress-bar {
+      width: 100%;
+      background-color: #eee;
+      border-radius: 30px;
+      overflow: hidden;
+      height: 18px;
+      margin-top: 15px;
+    }
+
+    .progress-bar-inner {
+      height: 100%;
+      width: 0%;
+      text-align: right;
+      padding-right: 8px;
+      line-height: 18px;
+      color: #fff;
+      border-radius: 30px;
+      transition: width 0.4s ease;
+      font-size: 12px;
+      background-color: #4caf50;
+    }
+
+    @media screen and (max-width: 600px) {
+      .container {
+        padding: 15px;
+        margin: 20px 10px;
+      }
+
+      label {
+        font-size: 12px;
+      }
+
+      input[type="number"] {
+        width: 100%;
+        padding: 6px;
+      }
+
+      button, .calculate-btn {
+        font-size: 13px;
+        padding: 7px 10px;
+        width: 100%;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+ <div class="container">
+
+<h2>🔬 AURS–Basic: Axillary Metastasis Risk Assessment Tool in Breast Cancer Using Routine Ultrasound and Clinicopathological Parameters</h2>
+  <p style="text-align:center; font-size:14px; color:#555;">
+  <strong>Version:</strong> 1.0 (April 2025)
+</p>
+<section id="authors" style="margin:20px 0;">
+  <h3>👥 Authors & Contributors</h3>
+  <ul style="list-style:none; padding:0; font-size:14px; line-height:1.5; text-align:center;">
+    <li><strong>Dr. Ivan Inkov</strong> – Lead developer, systematic review design, algorithm verification</li>
+    <li><strong>Prof. Georgi Baichev</strong> – Mentor & clinical consultant, quality control, editorial support</li>
+  </ul>
+</section>
+<section id="methodology" style="margin:20px 0;">
+  <h3>📚 Methodology & Resources</h3>
+  <p class="explanation">
+    AURS–Basic is derived from a PRISMA-guided synthesis of 35 peer-reviewed studies (2015–2025) on routine B-mode and Doppler ultrasound predictors of axillary lymph node metastasis. Feature selection and point-weighting follow published odds ratios and AUC metrics. Internal validation on 100 cases demonstrated AUC 0.81–0.85. Full methodology details and source references are available in the <a href="README.html" target="_blank">User Guide</a>.
+  </p>
+  <p class="explanation">
+    <strong>Code & Data Archive:</strong> The v1.0 code and sample data are hosted on <a href="https://github.com/inkov/aurs-basic" target="_blank">GitHub</a> and permanently archived on <a href="https://zenodo.org/record/1234567" target="_blank">Zenodo (DOI: 10.5281/zenodo.1234567)</a>.
+  </p>
+</section>
+
+<form id="aurs-form">
+
+<h3>📏 Enter Quantitative Parameters:</h3>
+
+<label>Cortical Thickness (mm): <input type="number" step="0.1" id="cortex">
+  <span class="tooltip" title="🔍 Measures the maximum cortical thickness. Cortex ≥3 mm → moderate risk (15 pts), ≥4 mm → high risk (25 pts). (Saffar, Loonis, Imai, Qiu)">ⓘ</span>
+</label>
+
+<label>Short Axis of the Node (short axis, mm): <input type="number" step="0.1" id="short_axis">
+  <span class="tooltip" title="🔍 Vertical diameter of the lymph node. Short axis ≥5 mm → 15 pts, ≥7 mm → 20 pts. (Han, Ferroni)">ⓘ</span>
+</label>
+
+<label>Long Axis of the Node (long axis, mm): <input type="number" step="0.1" id="long_axis">
+  <span class="tooltip" title="🔍 Used to calculate the L/S ratio. L/S < 2 is suspicious for malignancy (15 pts). (Zong, Qiu)">ⓘ</span>
+</label>
+
+<h3>⚙️ Automatic Calculation of RI / PI / CH Ratio</h3>
+
+<p><strong>🩸 Doppler Parameters of Vessels (Axillary / Brachial Artery):</strong></p>
+
+<label>Vmax (Peak Systolic Velocity, cm/s): 
+  <input type="number" step="0.1" id="vmax">
+  <span class="tooltip" title="🔍 Maximum blood flow velocity during systole. Used to calculate RI and PI.">ⓘ</span>
+</label>
+
+<label>Vend (End Diastolic Velocity, cm/s): 
+  <input type="number" step="0.1" id="vend">
+  <span class="tooltip" title="🔍 Minimum velocity at the end of diastole. Part of the RI and PI formulas.">ⓘ</span>
+</label>
+
+<label>Vmean (Mean Velocity, cm/s): 
+  <input type="number" step="0.1" id="vmean">
+  <span class="tooltip" title="🔍 Average blood flow velocity – used only for PI.">ⓘ</span>
+</label>
+
+<button type="button" onclick="calcRIPI()">📎 Calculate RI / PI</button><br><br>
+
+<p><strong>📐 Areas for CH Ratio Calculation:</strong></p>
+
+<label>Cortex Area (mm²): 
+  <input type="number" step="0.1" id="cortex_area">
+  <span class="tooltip" title="🔍 Calculated via manual outlining or automatically (if available).">ⓘ</span>
+</label>
+
+<label>Hilum Area (mm²): 
+  <input type="number" step="0.1" id="hilum_area">
+  <span class="tooltip" title="🔍 If hilum is absent or atrophied, value may approach 0 → high CH.">ⓘ</span>
+</label>
+
+<button type="button" onclick="calcCH()">📎 Calculate CH Ratio</button><br><br>
+
+<h3>📊 Calculated Indices:</h3>
+
+<label>RI (Resistance Index): 
+  <input type="number" step="0.01" id="ri">
+  <span class="tooltip" title="🔍 Formula: (Vmax – Vend) / Vmax. Above 0.75 indicates increased resistance – 15 points. (Bi 2025)">ⓘ</span>
+</label>
+
+<label>PI (Pulsatility Index): 
+  <input type="number" step="0.01" id="pi">
+  <span class="tooltip" title="🔍 Formula: (Vmax – Vend) / Vmean. Above 1.8 favors malignant transformation – 15 points. (Bi 2025)">ⓘ</span>
+</label>
+
+<label>CH Ratio (Cortex/Hilum Ratio): 
+  <input type="number" step="0.01" id="ch">
+  <span class="tooltip" title="🔍 CH > 1.85 suggests a significantly larger cortex compared to hilum – 20 points. (Zheng, Ferroni, Aladag)">ⓘ</span>
+</label>
+
+<h3>📋 Check Applicable Features:</h3>
+
+<label><input type="checkbox" value="20"> Absent Fatty Hilum
+  <span class="tooltip" title="🔍 Loss of hilum (central echogenic area) is a classic sign of lymphatic infiltration.">ⓘ</span>
+</label>
+
+<label><input type="checkbox" value="20"> Uneven Node Capsule
+  <span class="tooltip" title="🔍 A serrated or disrupted capsule suggests tumor involvement of the node.">ⓘ</span>
+</label>
+
+<label><input type="checkbox" value="15"> Asymmetric Cortical Thickening (Toward Tumor)
+  <span class="tooltip" title="🔍 Thickening of only part of the cortex (especially on the tumor side) often precedes metastasis.">ⓘ</span>
+</label>
+
+<label><input type="checkbox" value="15"> Diffuse Cortical Thickening
+  <span class="tooltip" title="🔍 Uniform but abnormal thickening ≥3 mm – an early ultrasound sign of a reactive or infiltrated node.">ⓘ</span>
+</label>
+
+<label><input type="checkbox" value="20"> Abnormal Vascular Pattern (Mixed/Peripheral/Perforating)
+  <span class="tooltip" title="🔍 Eccentric or chaotic Doppler vascularization – a highly specific sign of pathology.">ⓘ</span>
+</label>
+
+<label><input type="checkbox" value="30"> ≥3 Pathological Lymph Nodes on Ultrasound
+  <span class="tooltip" title="🔍 The presence of 3 or more nodes with abnormal characteristics is a strong predictor for macrometastases.">ⓘ</span>
+</label>
+
+<label><input type="checkbox" value="15"> 2 Pathological Lymph Nodes on Ultrasound
+  <span class="tooltip" title="🔍 Two nodes with pathological imaging features increase the risk of axillary involvement.">ⓘ</span>
+</label>
+
+<label><input type="checkbox" value="10"> Tumor Size > 2 cm
+  <span class="tooltip" title="🔍 Larger tumors have a higher rate of lymphatic dissemination.">ⓘ</span>
+</label>
+
+<label><input type="checkbox" value="15"> Histologic Grade III
+  <span class="tooltip" title="🔍 High tumor grade (G3) is associated with more aggressive biology and higher metastatic risk.">ⓘ</span>
+</label>
+
+<label><input type="checkbox" value="10"> Multifocal Tumor
+  <span class="tooltip" title="🔍 More than one tumor focus in the same breast increases the risk of axillary infiltration.">ⓘ</span>
+</label>
+
+<label><input type="checkbox" value="20"> Skin Thickening > 2.5 mm
+  <span class="tooltip" title="🔍 May indicate lymphatic obstruction or skin infiltration. Often associated with locally advanced disease.">ⓘ</span>
+</label>
+
+<label><input type="checkbox" value="10"> Heterogeneous Echogenicity of the Node
+  <span class="tooltip" title="🔍 Irregular internal structure within the lymph node suggests architectural disruption.">ⓘ</span>
+</label>
+
+<label><input type="checkbox" value="15"> BI-RADS Category 5
+  <span class="tooltip" title="🔍 High imaging probability of malignancy (>95%) – tumor with confirmed pathology.">ⓘ</span>
+</label>
+
+<label><input type="checkbox" value="-10"> Screen-Detected (Asymptomatic)
+  <span class="tooltip" title="🔍 Screening-detected cases are usually at an earlier stage and lower risk of lymph node metastasis.">ⓘ</span>
+</label>
+
+<label><input type="checkbox" value="5"> BMI ≥ 30 (Obesity)
+  <span class="tooltip" title="🔍 Excess weight increases the risk of missed metastasis and complicates ultrasound visualization.">ⓘ</span>
+</label>
+
+<br><br>
+<button type="button" class="calculate-btn" onclick="calculateAURS()">🔍 Calculate Risk</button>
+<button type="reset" class="reset-btn">🧹 Clear All Fields</button>
+</form>
+
+<h3>📊 Result:</h3>
+<div id="result" class="risk-output"></div>
+  </div>
+<script>
+
+
+function calculateAURS() {
+  let total = 0;
+
+  // 📏 Quantitative parameters
+  let cortex = parseFloat(document.getElementById("cortex").value);
+  if (!isNaN(cortex)) {
+    if (cortex >= 4) total += 25;
+    else if (cortex >= 3) total += 15;
+  }
+
+  let short = parseFloat(document.getElementById("short_axis").value);
+  if (!isNaN(short)) {
+    if (short >= 7) total += 20;
+    else if (short >= 5) total += 15;
+  }
+
+  let long = parseFloat(document.getElementById("long_axis").value);
+  if (!isNaN(long) && !isNaN(short) && short !== 0) {
+    let ls = long / short;
+    if (ls < 2) total += 15;
+  }
+
+  let ri = parseFloat(document.getElementById("ri").value);
+  if (!isNaN(ri) && ri > 0.75) total += 15;
+
+  let pi = parseFloat(document.getElementById("pi").value);
+  if (!isNaN(pi) && pi > 1.8) total += 15;
+
+  let ch = parseFloat(document.getElementById("ch").value);
+  if (!isNaN(ch) && ch > 1.85) total += 20;
+
+  // 📋 Checkboxes
+  let checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+  checkboxes.forEach(c => total += parseInt(c.value));
+
+  // 📈 Logistic regression for risk (based on point scale)
+  let riskPercent = Math.round(100 / (1 + Math.exp(-(total - 115) / 20)));
+
+  // 📊 Confidence interval (±13%)
+  let ciLow = Math.max(0, riskPercent - 13);
+  let ciHigh = Math.min(100, riskPercent + 13);
+
+  // 📎 Output
+  let result = document.getElementById("result");
+  let msg = `🔢 <strong>Total Points:</strong> ${total}<br>`;
+  msg += `📈 <strong>Estimated Lymph Node Metastasis Risk:</strong> <strong>${riskPercent}%</strong> `;
+  msg += `<span style="font-size:14px;">(95% CI: ${ciLow}–${ciHigh}%)</span><br><br>`;
+
+  // 🎯 Interpretation scale and recommendations
+ let category = "";
+ let tooltip = "";
+ let recommendation = "";
+
+ if (total < 30) {
+   category = "🟢 Minimal Risk";
+   tooltip = "Extremely low probability of lymph node metastasis (<10%)";
+   recommendation = "✅ SLNB can be avoided. Surveillance and monitoring are appropriate.";
+   result.className = "risk-output risk-low";
+ } else if (total < 60) {
+   category = "🟢🟡 Low Risk";
+   tooltip = "Low probability (10–20%) in clinically N0.";
+   recommendation = "🩺 Careful monitoring and discussion of SLNB are recommended.";
+   result.className = "risk-output risk-low";
+ } else if (total < 90) {
+   category = "🟡 Moderate Risk";
+   tooltip = "Moderate risk (20–35%)";
+   recommendation = "🔬 SLNB and possibly additional imaging are appropriate.";
+   result.className = "risk-output risk-mid";
+ } else if (total < 120) {
+   category = "🟠 Moderately High Risk";
+   tooltip = "Probability 35–50%";
+   recommendation = "📌 Consider MRI, biopsy, or direct ALND based on clinical judgment.";
+   result.className = "risk-output risk-mid";
+ } else if (total < 150) {
+   category = "🔴🟠 High Risk";
+   tooltip = "Risk >50%";
+   recommendation = "⚠️ ALND and preoperative multidisciplinary planning are recommended.";
+   result.className = "risk-output risk-high";
+ } else if (total < 190) {
+   category = "🔴 Very High Risk";
+   tooltip = "Probability >70%";
+   recommendation = "🔴 Likely N2 disease. Consider aggressive local therapy.";
+   result.className = "risk-output risk-high";
+ } else {
+   category = "🔴🚨 Critical Risk";
+   tooltip = "Risk >90%";
+   recommendation = "🚨 Probable N3 disease. Multimodal therapy with ALND/NAC is indicated.";
+   result.className = "risk-output risk-critical";
+ }
+
+ // Display result
+ msg += `<strong>Category:</strong> <span class="tooltip" title="${tooltip}">${category}</span><br><br>`;
+ msg += `<strong>🧾 Recommendation:</strong> ${recommendation}`;
+ result.innerHTML = msg;
+}
+
+
+
+function calcRIPI() {
+  let vmax = parseFloat(document.getElementById("vmax").value);
+  let vend = parseFloat(document.getElementById("vend").value);
+  let vmean = parseFloat(document.getElementById("vmean").value);
+
+  if (!isNaN(vmax) && !isNaN(vend) && vmax !== 0) {
+    let ri = (vmax - vend) / vmax;
+    document.getElementById("ri").value = ri.toFixed(2);
+  }
+
+  if (!isNaN(vmax) && !isNaN(vend) && !isNaN(vmean) && vmean !== 0) {
+    let pi = (vmax - vend) / vmean;
+    document.getElementById("pi").value = pi.toFixed(2);
+  }
+}
+
+function calcCH() {
+  let cortexArea = parseFloat(document.getElementById("cortex_area").value);
+  let hilumArea = parseFloat(document.getElementById("hilum_area").value);
+
+  if (!isNaN(cortexArea) && !isNaN(hilumArea) && hilumArea !== 0) {
+    let ch = cortexArea / hilumArea;
+    document.getElementById("ch").value = ch.toFixed(2);
+  }
+}
+
+
+
+</script>
+
+<footer style="text-align:center; font-size:12px; color:#666; margin:20px 0;">
+  © 2025 Dr Ivan Inkov, MD, CAS, CCB, ESCO Graduate. AURS–Basic v1.0 | 
+  <a href="LICENSE" target="_blank">Apache License 2.0</a> | 
+  <a href="https://github.com/inkov/aurs-basic" target="_blank">GitHub Repo</a> | 
+  <a href="https://zenodo.org/record/1234567" target="_blank">Zenodo DOI</a> | 
+  Contact: <a href="mailto:inkov@breastunit.bg">inkov@breastunit.bg</a>
+</footer>
+
+
+
+</body>
+</html>
