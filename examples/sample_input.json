@@ -1,0 +1,9 @@
+{
+  "cortex": 4.2,
+  "short_axis": 6,
+  "long_axis": 12,
+  "ri": 0.78,
+  "pi": 2.1,
+  "ch": 2.0,
+  "features": ["Absent Fatty Hilum", "≥3 Abnormal Nodes"]
+}
