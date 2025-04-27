@@ -1,0 +1,11 @@
+{
+  "title": "AURS–Basic Calculator: A Low-Resource Ultrasound-Based Nomogram for Preoperative Axillary Risk",
+  "upload_type": "software",
+  "publication_type": "software",
+  "creators": [
+    {"name": "Ivan Inkov"},
+    {"name": "George Baitchev"}
+  ],
+  "license": "Apache-2.0",
+  "version": "1.0"
+}
