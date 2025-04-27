@@ -17,6 +17,7 @@ A low-resource, ultrasound-based nomogram for preoperative axillary metastasis r
 ```bash
 git clone https://github.com/axilla-score/AURS-basic.git
 cd AURS-basic
+
 # Open index.html in your browser\`\`\`
 
 ## Usage
