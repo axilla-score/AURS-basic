@@ -2,10 +2,13 @@ cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 title: "AURS–Basic Calculator: A Low-Resource Ultrasound-Based Nomogram for Preoperative Axillary Risk"
 version: "1.0"
-doi: "10.5281/zenodo.15288756"
+date-released: "2025-04-27"
 authors:
-  - family-names: Inkov
-    given-names: Ivan
-  - family-names: Baitchev
-    given-names: George
-date-released: 2025-04-25
+  - family-names: "Inkov"
+    given-names: "Ivan"
+    affiliation: "SANLAS Clinic Preventica, Sofia, Bulgaria"
+  - family-names: "Baitchev"
+    given-names: "George"
+    affiliation: "Military Medical Academy of Sofia, Bulgaria"
+doi: "10.5281/zenodo.15288756"
+url: "https://github.com/axilla-score/AURS-basic"
